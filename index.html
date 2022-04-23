@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Индекс массы тела</title>
+</head>
+<body>
+    <h3>Калькулятор Индекса Массы Тела</h3>
+
+    <div class="calculator">
+        <form name="calculator" onsubmit="validate()">
+            <div class="row">
+                <label>
+                    <input type="number" class="input-number" id="age" autocomplete="off" required>
+                    <p class="label-text">Возраст</p>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="radio" id="female">
+                    <p class="label-text">Жен</p>
+                </label>
+                <label class="radio">
+                    <input type="radio" name="radio" id="male">
+                    <p class="label-text">Муж</p>
+                </label>
+            </div>
+
+            <div class="row">
+                <label>
+                    <input type="number" class="input-number" id="height" autocomplete="off" required>
+                    <p class="label-text">Рост(см)</p>
+                </label>
+                <label>
+                    <input type="number" class="input-number" id="weight" autocomplete="off" required>
+                    <p class="label-text">Вес(кг)</p>
+                </label>
+            </div>
+
+            <div class="btn">
+                <button type="button" id="submit">Рассчитать</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let form = document.forms.calculator
+
+        let age = document.getElementById("age")
+        let female = document.getElementById("female")
+        let male = document.getElementById("male")
+        let height = document.getElementById("height")
+        let weight = document.getElementById("weight")
+
+        function validate(){
+            if (age.value == '' || height.value == '' || weight.value == '' || (male.checked == false && female.checked == false)){
+                alert("Заполните все обязательные поля")
+                document.getElementById("submit").removeEventListener("click", calculate)
+            }
+            else calculate();
+        }
+
+        document.getElementById("submit").addEventListener("click", validate)
+
+        function calculate(){
+            let arr = [age.value, height.value, weight.value]
+            if (male.checked) arr.push("male") 
+            else if (female.checked) arr.push("female")
+            form.reset()
+            let imt = Number(arr[2])/(Number(arr[1])/100*Number(arr[1])/100)
+            let result = ''
+
+            if (imt < 16){
+                result = 'Выраженный дефицит массы тела'
+            } else if (imt < 18.5){
+                result = 'Дефицит массы тела'
+            } else if (imt < 25){
+                result = 'Норма'
+            } else if (imt < 30){
+                result = 'Избыточная масса тела'
+            } else if (imt < 35) {
+                result = 'Ожирение первой степени'
+            } else if (imt < 40) {
+                result = 'Ожирение второй степени'
+            } else result = 'Ожирение третьей степени'
+
+            let h1 = document.createElement("h1")
+            let h2 = document.createElement("h2")
+            let r = document.createTextNode(result)
+            let i = document.createTextNode("ИМТ: ")
+            let res = document.createTextNode(parseFloat(imt).toFixed(2))
+
+            h1.appendChild(r)
+            h2.appendChild(i)
+            h2.appendChild(res)
+            document.body.appendChild(h1)
+            document.body.appendChild(h2)
+            document.getElementById("submit").removeEventListener("click", calculate)
+
+            document.getElementById("submit").removeEventListener("click", validate)
+    }
+    document.getElementById("submit").addEventListener("click", calculate)
+
+    </script>
+</body>
+</html>
