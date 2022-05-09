@@ -45,14 +45,17 @@
     </div>
 
     <script>
+        //Нахождение нужной формы в документе
         let form = document.forms.calculator
 
+        //Присвоили переменным данные из формы
         let age = document.getElementById("age")
         let female = document.getElementById("female")
         let male = document.getElementById("male")
         let height = document.getElementById("height")
         let weight = document.getElementById("weight")
 
+        //Валидация формы
         function validate(){
             if (age.value == '' || height.value == '' || weight.value == '' || (male.checked == false && female.checked == false)){
                 alert("Заполните все обязательные поля")
@@ -64,13 +67,17 @@
         document.getElementById("submit").addEventListener("click", validate)
 
         function calculate(){
+            //Массив значений из формы
             let arr = [age.value, height.value, weight.value]
+            //Определение выбранного пола
             if (male.checked) arr.push("male") 
             else if (female.checked) arr.push("female")
             form.reset()
+            //Вычисление имт
             let imt = Number(arr[2])/(Number(arr[1])/100*Number(arr[1])/100)
             let result = ''
 
+            //Вычисление к какой категории принадлежит полученный имт
             if (imt < 16){
                 result = 'Выраженный дефицит массы тела'
             } else if (imt < 18.5){
@@ -85,6 +92,7 @@
                 result = 'Ожирение второй степени'
             } else result = 'Ожирение третьей степени'
 
+            //Создание html элемента, вывод результата в нем
             let h1 = document.createElement("h1")
             let h2 = document.createElement("h2")
             let r = document.createTextNode(result)
